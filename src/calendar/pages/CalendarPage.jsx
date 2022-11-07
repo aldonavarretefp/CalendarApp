@@ -15,9 +15,8 @@ const locales = {
 const events = [
   {
     title: 'Cumpleaños del jefe',
-    start: new Date(2021, 3, 12, 10, 0, 0),
-    end: new Date(2021, 3, 12, 14, 0, 0),
-    bgcolor: '#fafafa',
+    start: new Date(),
+    end: addHours(new Date(), 2),
     notes: 'Comprar el pastel',
     user: {
       _id: '123',
