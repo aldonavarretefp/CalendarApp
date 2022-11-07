@@ -4,7 +4,7 @@ import { addHours } from 'date-fns'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 import { getMessagesESPANOL, localizer } from '../../helpers'
-import { Navbar } from './..'
+import { Navbar, CalendarEvent } from './..'
 
 const events = [
   {
@@ -99,6 +99,9 @@ const CalendarPage = () => {
         messages={getMessagesESPANOL()}
         eventPropGetter={eventStyleGetter}
         popup
+        components={{
+          event: CalendarEvent
+        }}
       />
     </>
   )
