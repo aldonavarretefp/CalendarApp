@@ -85,6 +85,18 @@ const CalendarPage = () => {
     };
   }
 
+  const onDoubleClickEvent = (e) => {
+    console.log("Double click");
+  }
+  const onSelectEvent = (e) => {
+    console.log("select event");
+  }
+
+  const onViewChanged = (e) => {
+    localStorage.setItem('lastView', e);
+  }
+
+
   return (
     <>
       <Navbar />
@@ -102,6 +114,9 @@ const CalendarPage = () => {
         components={{
           event: CalendarEvent
         }}
+        onDoubleClickEvent={onDoubleClickEvent}
+        onSelectEvent={onSelectEvent}
+        onView = {onViewChanged}
       />
     </>
   )
