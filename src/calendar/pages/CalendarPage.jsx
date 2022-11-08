@@ -1,4 +1,5 @@
 
+import {useState} from 'React'
 import { Calendar } from 'react-big-calendar' 
 import { addHours } from 'date-fns'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -72,6 +73,8 @@ const events = [
 
 const CalendarPage = () => {
 
+  const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
+
   const eventStyleGetter = (event, start, end, isSelected) => {
     console.log({event, start, end, isSelected})
     const style = {
@@ -116,6 +119,7 @@ const CalendarPage = () => {
         }}
         onDoubleClickEvent={onDoubleClickEvent}
         onSelectEvent={onSelectEvent}
+        defaultView= {lastView}
         onView = {onViewChanged}
       />
     </>
