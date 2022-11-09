@@ -2,6 +2,9 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import CalendarPage from '../calendar/pages/CalendarPage'
 import {LoginPage} from '../auth'
+
+React.memo(CalendarPage);
+
 const AppRouter = () => {
 
     const authStatus = 'not-authenticated';

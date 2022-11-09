@@ -1,10 +1,10 @@
-
+import { useState, memo } from 'react';
 import { Calendar } from 'react-big-calendar' 
 import { addHours } from 'date-fns'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 import { getMessagesESPANOL, localizer } from '../../helpers'
-import { Navbar, CalendarEvent } from './..'
+import { Navbar, CalendarEvent, CalendarModal} from './..'
 
 const events = [
   {
@@ -72,8 +72,9 @@ const events = [
 
 const CalendarPage = () => {
 
+  const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
+
   const eventStyleGetter = (event, start, end, isSelected) => {
-    console.log({event, start, end, isSelected})
     const style = {
       backgroundColor: '#2596be',
       borderRadius: '5px',
@@ -83,7 +84,7 @@ const CalendarPage = () => {
     return {
       style
     };
-  }
+  };
 
   const onDoubleClickEvent = (e) => {
     console.log("Double click");
@@ -116,8 +117,11 @@ const CalendarPage = () => {
         }}
         onDoubleClickEvent={onDoubleClickEvent}
         onSelectEvent={onSelectEvent}
+        defaultView= {lastView}
         onView = {onViewChanged}
       />
+
+      <CalendarModal />
     </>
   )
 }

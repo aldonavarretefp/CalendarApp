@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 
-export const CalendarEvent = ({event}) => {
-    const {title, user} = event;
+export const CalendarEvent = memo(({ event }) => {
+    const { title, user } = event
     return (
         <>
             <strong className='fs-6'>
@@ -9,8 +9,10 @@ export const CalendarEvent = ({event}) => {
             </strong>
 
             <span className='fw-lighter badge bg-primary text-wrap'>
-               {user.name}
+                {user.name}
             </span>
         </>
     )
 }
+)
+
