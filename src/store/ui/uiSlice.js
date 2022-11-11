@@ -11,11 +11,11 @@ export const uiSlice = createSlice({
             state.isDateModalOpen = true;
         },
         onCloseDateModal: (state) => {
-            state.isDateModalClose = false;
+            state.isDateModalOpen= false;
         }
 
     }
 });
 
 
-export const {onOpenIsDateModalOpen} = uiSlice.actions;
+export const {onOpenDateModal, onCloseDateModal} = uiSlice.actions;
