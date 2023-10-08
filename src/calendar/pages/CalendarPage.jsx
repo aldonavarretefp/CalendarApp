@@ -3,15 +3,14 @@ import { Calendar } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 import { getMessagesESPANOL, localizer } from '../../helpers'
-import { Navbar, CalendarEvent, CalendarModal} from './..'
-import { useUiStore } from '../../hooks';
-import {events}from '../../data';
-
-
+import { Navbar, CalendarEvent, CalendarModal, FabAddNew } from './..'
+import { useCalendarStore, useUiStore } from '../../hooks';
 
 const CalendarPage = () => {
 
-  const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
+  const [ lastView, setLastView ] = useState(localStorage.getItem('lastView') || 'month');
+
+  const { events, setActiveEvent } = useCalendarStore();
 
   const {
     openDateModal
@@ -29,38 +28,43 @@ const CalendarPage = () => {
     };
   };
 
-  const onDoubleClickEvent = (e) => {
+  const onDoubleClickEvent = () => {
     openDateModal();
   }
 
-  const onViewChanged = (e) => {
-    localStorage.setItem('lastView', e);
+  const onViewChanged = (event) => {
+    localStorage.setItem('lastView', event);
+    setLastView(event);
+  }
+
+  const onSelectEvent = (event) => {
+    setActiveEvent(event);
   }
 
 
   return (
     <>
       <Navbar />
-
       <Calendar
         culture='es'
-        localizer={localizer}
-        events={events}
+        localizer={ localizer }
+        events={ events }
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 'calc(100vh - 80px)' }}
-        messages={getMessagesESPANOL()}
-        eventPropGetter={eventStyleGetter}
+        style={ { height: 'calc(100vh - 80px)' } }
+        messages={ getMessagesESPANOL() }
+        eventPropGetter={ eventStyleGetter }
         popup
         components={{
           event: CalendarEvent
         }}
-        onDoubleClickEvent={onDoubleClickEvent}
-        defaultView= {lastView}
-        onView = {onViewChanged}
+        onDoubleClickEvent={ onDoubleClickEvent }
+        defaultView= { lastView }
+        onView = { onViewChanged }
+        onSelectEvent={ onSelectEvent }
       />
-
       <CalendarModal />
+      <FabAddNew/>
     </>
   )
 }

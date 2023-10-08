@@ -1,8 +1,8 @@
-import { memo, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 
 import DatePicker, { registerLocale } from "react-datepicker";
-import { addHours } from 'date-fns';
+import { addHours, differenceInSeconds } from 'date-fns';
 import Modal from 'react-modal';
 
 import Swal from 'sweetalert2'
@@ -14,7 +14,7 @@ import { es } from 'date-fns/locale';
 registerLocale('es', es);
 
 import "react-datepicker/dist/react-datepicker.css";
-import { useUiStore } from '../../hooks/';
+import { useCalendarStore, useUiStore } from '../../hooks/';
 
 const customStyles = {
     content: {
@@ -32,6 +32,7 @@ Modal.setAppElement('#root');
 export const CalendarModal = () => {
     
     const { isDateModalOpen, closeDateModal } = useUiStore();
+    const { activeEvent } = useCalendarStore();
 
     const [formIsSubmitted, setFormIsSubmitted] = useState(false);
 
@@ -42,7 +43,6 @@ export const CalendarModal = () => {
         end: addHours(new Date(), 2)
     });
 
-
     const onChange = (e) => {
         setFormValues({
             ...formValues,
@@ -52,8 +52,18 @@ export const CalendarModal = () => {
 
     const onSubmitForm = (e) => {
         e.preventDefault();
+
         setFormIsSubmitted(true);
+        
+        const difference = differenceInSeconds(formValues.end, formValues.start);
+
+        if (isNaN(difference) || difference <= 0) {
+            Swal.fire("Fechas incorrectas", "Revisar las fechas ingresadas", "error");
+            return;
+        }
+        
         const { title } = formValues;
+
         if (title.trim().length < 2) {
             Swal.fire(
                 'Error',
@@ -62,13 +72,21 @@ export const CalendarModal = () => {
             );
             return;
         }
+        
         closeDateModal();
     };
 
     const titleClass = useMemo(() => {
         if (!formIsSubmitted) return '';
-        return (formValues.title.trim().length < 2) ? 'is-invalid' : '';
+        return formValues.title.trim().length < 2 ? 'is-invalid' : 'is-valid';
     }, [formValues.title, formIsSubmitted]);
+
+    useEffect(() => {
+      if (!activeEvent) return;
+      setFormValues({...activeEvent});
+
+    }, [activeEvent])
+    
 
     const filterPassedTime = (time) => {
         const { start } = formValues;
@@ -76,7 +94,6 @@ export const CalendarModal = () => {
         const selectedDate = new Date(time);
         return currentDate.getTime() < selectedDate.getTime();
     };
-
 
     return (
         <>
