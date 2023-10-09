@@ -5,9 +5,7 @@ export const useUiStore = () => {
     
     const dispatch = useDispatch();
 
-    const {
-        isDateModalOpen
-    } = useSelector(state => state.ui); // useSelector trae el estado de ui del store
+    const { isDateModalOpen } = useSelector(state => state.ui); // useSelector trae el estado de ui del store
 
     const openDateModal = () => {
         dispatch( onOpenDateModal());

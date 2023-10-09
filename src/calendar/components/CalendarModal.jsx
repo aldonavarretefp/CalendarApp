@@ -32,7 +32,7 @@ Modal.setAppElement('#root');
 export const CalendarModal = () => {
     
     const { isDateModalOpen, closeDateModal } = useUiStore();
-    const { activeEvent } = useCalendarStore();
+    const { activeEvent, startSavingEvent, setActiveEvent } = useCalendarStore();
 
     const [formIsSubmitted, setFormIsSubmitted] = useState(false);
 
@@ -50,7 +50,7 @@ export const CalendarModal = () => {
         });
     };
 
-    const onSubmitForm = (e) => {
+    const onSubmitForm = async (e) => {
         e.preventDefault();
 
         setFormIsSubmitted(true);
@@ -73,7 +73,9 @@ export const CalendarModal = () => {
             return;
         }
         
+        await startSavingEvent(formValues);
         closeDateModal();
+        setFormIsSubmitted(false);
     };
 
     const titleClass = useMemo(() => {
@@ -84,7 +86,6 @@ export const CalendarModal = () => {
     useEffect(() => {
       if (!activeEvent) return;
       setFormValues({...activeEvent});
-
     }, [activeEvent])
     
 
@@ -95,11 +96,16 @@ export const CalendarModal = () => {
         return currentDate.getTime() < selectedDate.getTime();
     };
 
+    const handleRequestClose = () => {
+        closeDateModal();
+        setActiveEvent(null);
+    }
+
     return (
         <>
             <Modal
-                isOpen={isDateModalOpen}
-                onRequestClose={closeDateModal}
+                isOpen={ isDateModalOpen }
+                onRequestClose={ handleRequestClose }
                 style={customStyles}
                 className={'modal'}
                 overlayClassName={'modal-bg'}
