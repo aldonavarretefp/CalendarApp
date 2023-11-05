@@ -8,11 +8,13 @@ React.memo(CalendarPage);
 
 const AppRouter = () => {
 
-    const authStatus = 'not-authenticated';
+    const authStatus = 'checking';
+    console.log(authStatus);
+
     return (
         <Routes>
             {
-                (authStatus === 'authenticated')
+                (authStatus !== 'authenticated')
                 ? <Route path="/auth/*" element={<LoginPage/>}/>
                 : <Route path="/*" element={<CalendarPage/>}/>
             }
