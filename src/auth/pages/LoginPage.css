@@ -1,16 +1,17 @@
 .login-container{
     margin-top: 15%;
 }
-.login-form-1{
+.login-form-1 {
     border-radius: 5px;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
     padding: 5%;
 }
+
 .login-form-1 h3{
     text-align: center;
     color: #333;
 }
-.login-form-2{
+.login-form-2 {
     border-radius: 5px;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
     padding: 5%;
@@ -25,9 +26,9 @@
 }
 .btnSubmit
 {
-    width: 50%;
+    width: 100%;
     border-radius: 1rem;
-    padding: 1.5%;
+    padding: 3.5%;
     border: none;
     cursor: pointer;
 }
